@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:green_ride/ui/pages/intro/nav_route_view.dart';
 import 'package:green_ride/ui/pages/intro/navigation_bus.dart';
 import 'package:green_ride/ui/pages/settings_page.dart';
+import 'package:green_ride/ui/theme/app_theme.dart';
 
 class NavContainer extends StatefulWidget {
   NavContainer({Key key, @required this.children}) : super(key: key);
@@ -53,7 +54,13 @@ class _NavContainerState extends State<NavContainer>
                   child: Column(
                 children: [
                   Expanded(
-                    child: Center(child: child),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Expanded(flex: 3, child: Center(child: child)),
+                        Spacer(),
+                      ],
+                    ),
                   ),
                   Spacer()
                 ],
@@ -121,23 +128,27 @@ class _NavContainerState extends State<NavContainer>
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FlatButton(
-                onPressed: () => Navigator.of(context).pushNamed(SettingsPage.route),
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(SettingsPage.route),
+                color: Colors.black45,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.0),
+                    side: BorderSide(color: Colors.white, width: 2.0)),
                 child: Row(
                   children: [
+                    SizedBox(width: 8),
                     Text(
                         _currentIndex != widget.children.length - 1
                             ? "Skip Intro"
-                            : "Next",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold)),
+                            : "Start",
+                        style: AppTheme.textStyleWhite),
                     Icon(
                       Icons.chevron_right,
                       color: Colors.white,
                     )
                   ],
-                ))
+                )),
+            SizedBox(width: 8,)
           ],
         )
       ]))

@@ -1,11 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:green_ride/ui/theme/app_theme.dart';
 
 class NextButton extends StatelessWidget {
-
   final String nextPageRoute;
+  final Object arguments;
 
-  NextButton(this.nextPageRoute);
+  NextButton(this.nextPageRoute, {this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -17,23 +18,20 @@ class NextButton extends StatelessWidget {
             color: AppTheme.appColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0),
-                side:
-                BorderSide(color: AppTheme.appColor)),
-            onPressed: () =>
-                Navigator.of(context).pushNamed(nextPageRoute),
+                side: BorderSide(color: AppTheme.appColor)),
+            onPressed: () => Navigator.of(context)
+                .pushNamed(nextPageRoute, arguments: arguments),
             child: Padding(
-                padding:
-                EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
-                    Text(
-                      'Next',
-                      style: TextStyle(
-                          color: textColor, fontSize: 18),
+                    AutoSizeText(
+                      'Save',
+                      style: AppTheme.textStyleAuto,
                     ),
                     Spacer(),
                     Icon(
-                      Icons.arrow_forward,
+                      Icons.save,
                       size: 32,
                       color: textColor,
                     )

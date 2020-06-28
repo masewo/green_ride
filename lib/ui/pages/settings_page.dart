@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:green_ride/ui/pages/daily_travel_page.dart';
 import 'package:green_ride/ui/widgets/app_logo.dart';
 import 'package:intl/intl.dart';
 import 'package:green_ride/ui/theme/app_theme.dart';
@@ -33,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    selectedDateTime = DateTime.now();
+//    selectedDateTime = DateTime.now();
     super.initState();
   }
 
@@ -44,12 +45,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final Widget textFieldOrigin = buildTextField(
         controller: originController,
-        hint: 'Start',
+        hint: 'Origin',
         icon: Icon(Icons.place, size: 40, color: Colors.grey[400]),
         withShadow: !isPortrait);
     final Widget textFieldDestination = buildTextField(
         controller: destinationController,
-        hint: 'Ziel',
+        hint: 'Destination',
         icon: Icon(Icons.outlined_flag, size: 40, color: Colors.grey[400]),
         withShadow: true);
 
@@ -68,13 +69,13 @@ class _SettingsPageState extends State<SettingsPage> {
 //              ),
 //            ),
             Expanded(
-          child: Container(decoration: const BoxDecoration(
-      image: DecorationImage(
-          alignment: Alignment(0, 0),
-        image: ExactAssetImage(
-            'assets/images/bicycling2.jpg'),
-        fit: BoxFit.cover
-    )))),
+                child: Container(
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            alignment: Alignment(0, 0),
+                            image:
+                                ExactAssetImage('assets/images/bicycling2.jpg'),
+                            fit: BoxFit.cover)))),
 //                child: FittedBox(
 //      child: Image.asset('assets/images/bicycling2.jpg'),
 //      fit: BoxFit.fill,
@@ -82,7 +83,11 @@ class _SettingsPageState extends State<SettingsPage> {
 //    Image.asset('assets/images/bicycling2.jpg',
 //                    fit: BoxFit.fill)
 //    ),
-            Expanded(child: Container(color: AppTheme.appSecondaryColor,),)
+            Expanded(
+              child: Container(
+                color: AppTheme.appSecondaryColor,
+              ),
+            )
           ],
         ),
         SafeArea(
@@ -143,7 +148,9 @@ class _SettingsPageState extends State<SettingsPage> {
                         : Row(
                             children: [
                               Expanded(child: textFieldOrigin),
-                              SizedBox(width: 20,),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Expanded(child: textFieldDestination)
                             ],
                           ),
@@ -163,12 +170,22 @@ class _SettingsPageState extends State<SettingsPage> {
                               : Row(
                                   children: [
                                     Expanded(child: weekdaySelector),
-                                    SizedBox(width: 20,),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
                                     Expanded(child: timeContainer)
                                   ],
                                 ),
                           Spacer(),
-                          NextButton('')
+                          NextButton(DailyTravelPage.route,
+                              arguments: DailyTravelPageArguments(
+                                  originController.text.trim(),
+                                  destinationController.text.trim(),
+                                  selectedWeekdays
+                                      .map((w) => w.selected ? 1 : 0)
+                                      .toList()
+                                      .reduce(
+                                          (a, b) => a + b)))
                         ],
                       ),
                     ),
@@ -184,9 +201,9 @@ class _SettingsPageState extends State<SettingsPage> {
       Icon icon,
       bool withShadow = false}) {
     // TODO: remove me later
-    if (hint == 'Start' && controller.text == '')
+    if (hint == 'Origin' && controller.text == '')
       controller.text = 'Merowingerstraße 1\n85051 Ingolstadt';
-    if (hint == 'Ziel' && controller.text == '')
+    if (hint == 'Destination' && controller.text == '')
       controller.text = 'Auto-Union-Straße 1\n85045 Ingolstadt';
 
     return Container(
@@ -291,17 +308,20 @@ class _SettingsPageState extends State<SettingsPage> {
 
     switch (mode) {
       case CupertinoDatePickerMode.time:
-        DateFormat formatter = new DateFormat.Hm('de');
-        formattedDateTime = formatter.format(selectedDateTime);
+        if (selectedDateTime != null) {
+          DateFormat formatter = new DateFormat.Hm('de');
+          formattedDateTime = formatter.format(selectedDateTime);
+        }
         icon = Icon(Icons.access_time, size: 30, color: Colors.grey[400]);
         break;
       case CupertinoDatePickerMode.date:
-        DateFormat formatter = DateFormat.yMMMMd('de');
-        formattedDateTime = formatter.format(selectedDateTime);
+        if (selectedDateTime != null) {
+          DateFormat formatter = DateFormat.yMMMMd('de');
+          formattedDateTime = formatter.format(selectedDateTime);
+        }
         icon = Icon(Icons.calendar_today, size: 30, color: Colors.grey[400]);
         break;
       default:
-        formattedDateTime = '';
         icon = Icon(Icons.help_outline, size: 30, color: Colors.grey[400]);
         break;
     }
@@ -344,8 +364,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           width: 22,
                         ),
                         Text(
-                          formattedDateTime,
-                          style: AppTheme.textStyle,
+                          formattedDateTime ?? 'Arrival time',
+                          style: formattedDateTime != null
+                              ? AppTheme.textStyle
+                              : AppTheme.textStyle
+                                  .copyWith(color: Colors.grey[400]),
                         ),
                       ],
                     )))));

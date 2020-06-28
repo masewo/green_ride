@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:green_ride/ui/pages/intro/intro_page.dart';
+import 'package:green_ride/ui/theme/app_theme.dart';
 import 'package:green_ride/ui/widgets/app_logo.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -56,16 +56,13 @@ class _WelcomePageState extends State<WelcomePage> {
                     borderRadius: BorderRadius.circular(40.0),
                     side: BorderSide(color: Colors.white, width: 2.0)),
                 color: Colors.black45,
-                child: AutoSizeText("Start Intro",
-                    style: GoogleFonts.oswald(
-//                      textStyle: button,
-                      color: Colors.white,
-                    )
+                child: Padding(padding: EdgeInsets.only(bottom: 2), child: AutoSizeText("Start Intro",
+                    style: AppTheme.textStyleAuto
 //                    TextStyle(
 //                        color: Colors.white,
 //                        fontSize: 20,
 //                        fontWeight: FontWeight.bold)
-                    ),
+                    )),
               )),
               Spacer(
                 flex: 5,

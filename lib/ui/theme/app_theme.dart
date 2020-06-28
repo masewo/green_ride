@@ -3,9 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static const Color appColor = Color(0xFF0A8919);
-  static const Color appSecondaryColor = Color(0xFFbbfac2);
-  static const Color appSecondaryColorLight = Color(0xFFEFF1FE);
-  static const Color green = Color(0xFF12B284);
+  static const Color appSecondaryColor = Color(0xFFBBFAC2);
 
   static TextStyle textStyleAuto = GoogleFonts.oswald(
     color: Colors.white,
@@ -20,5 +18,10 @@ class AppTheme {
   static TextStyle textStyleSmall = GoogleFonts.oswald(
     color: Colors.black,
     fontSize: 16,
+  );
+
+  static TextStyle textStyleWhite = GoogleFonts.oswald(
+    color: Colors.white,
+    fontSize: 18,
   );
 }

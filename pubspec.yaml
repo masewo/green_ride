@@ -18,6 +18,14 @@ dependencies:
   auto_size_text: ^2.1.0
   event_bus: ^1.1.1
   flutter_typeahead: ^1.8.3
+  sliding_sheet: ^0.3.5
+  charts_flutter: ^0.9.0
+  get_it: ^4.0.2
+  lottie: ^0.4.0+1
+  url_launcher: ^5.4.11
+
+  weather: ^1.1.1
+  weather_icons: ^2.0.1
 
   google_maps_flutter: ^0.5.28+1
   google_maps_webservice: ^0.0.17
@@ -33,6 +41,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/animations/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

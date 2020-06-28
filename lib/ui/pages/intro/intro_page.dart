@@ -16,15 +16,15 @@ class _IntroPageState extends State<IntroPage> {
     TextStyle textStyle = GoogleFonts.oswald(fontSize: 24, color: Colors.white);
     List<Widget> _screens = [
       Text(
-        "Starting Intro!",
+        "See your ecological footprint and improve it to help us saving our planet!",
         style: textStyle,
       ),
       Text(
-        "This app is awesome! Believe me!",
+        "We will help you to switch from driving to work by car to going by bike!",
         style: textStyle,
       ),
       Text(
-        "Finished Intro!",
+        "Start now: Define your travel to work and see how you can save our planet!",
         style: textStyle,
       )
     ];

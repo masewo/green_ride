@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -96,7 +95,7 @@ class _TypeAheadLocationTextFieldState
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Keine Ergebnisse gefunden',
+                    'No results found',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).disabledColor, fontSize: 18.0),
