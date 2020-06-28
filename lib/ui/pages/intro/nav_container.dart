@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:green_ride/ui/pages/intro/nav_route_view.dart';
-import 'package:green_ride/ui/pages/intro/nav_tab_icon.dart';
 import 'package:green_ride/ui/pages/intro/navigation_bus.dart';
+import 'package:green_ride/ui/pages/settings_page.dart';
 
 class NavContainer extends StatefulWidget {
   NavContainer({Key key, @required this.children}) : super(key: key);
@@ -42,9 +42,6 @@ class _NavContainerState extends State<NavContainer>
 //  }
 
   List<NavRouteView> get _routes {
-    TextStyle style =
-        Theme.of(context).textTheme.headline1.copyWith(color: Colors.white);
-
     int _index = 0;
     Iterable<NavRouteView> _map =
         widget.children.map<NavRouteView>((Widget child) {
@@ -124,7 +121,7 @@ class _NavContainerState extends State<NavContainer>
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FlatButton(
-                onPressed: () => null,
+                onPressed: () => Navigator.of(context).pushNamed(SettingsPage.route),
                 child: Row(
                   children: [
                     Text(
