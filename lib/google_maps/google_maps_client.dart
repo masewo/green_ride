@@ -12,7 +12,7 @@ class GoogleMapsClient {
 
   Future<List<Prediction>> autocomplete(String input) async {
     var response = await _places.autocomplete(input,
-        language: 'de',
+        language: 'en',
         region: 'DE',
         components: [Component(Component.country, 'de')]);
     return response.predictions;
@@ -28,7 +28,7 @@ class GoogleMapsClient {
           ?.toList(),
       travelMode: travelMode,
       alternatives: false,
-      language: 'de',
+      language: 'en',
       region: 'DE',
     );
 
