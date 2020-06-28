@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_ride/ui/pages/daily_travel_page.dart';
@@ -201,9 +202,9 @@ class _SettingsPageState extends State<SettingsPage> {
       Icon icon,
       bool withShadow = false}) {
     // TODO: remove me later
-    if (hint == 'Origin' && controller.text == '')
+    if (hint == 'Origin' && controller.text == '' && kDebugMode)
       controller.text = 'Merowingerstraße 1\n85051 Ingolstadt';
-    if (hint == 'Destination' && controller.text == '')
+    if (hint == 'Destination' && controller.text == '' && kDebugMode)
       controller.text = 'Auto-Union-Straße 1\n85045 Ingolstadt';
 
     return Container(

@@ -13,11 +13,13 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-
   @override
   void initState() {
     super.initState();
     initializeDateFormatting('de_DE', null);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {});
+    });
   }
 
   @override
@@ -42,28 +44,29 @@ class _WelcomePageState extends State<WelcomePage> {
               Expanded(
                   flex: isPortrait ? 10 : 20,
                   child: FractionallySizedBox(
-                      widthFactor:
-                          isPortrait ? 0.3 : 0.15,
-                      child: AppLogo())),
+                      widthFactor: isPortrait ? 0.3 : 0.15, child: AppLogo())),
               Spacer(
                 flex: 60,
               ),
               Expanded(
-                flex: isPortrait ? 5 : 10,
+                  flex: isPortrait ? 5 : 10,
                   child: FlatButton(
-                onPressed: () => Navigator.of(context).pushNamed(IntroPage.route),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40.0),
-                    side: BorderSide(color: Colors.white, width: 2.0)),
-                color: Colors.black45,
-                child: Padding(padding: EdgeInsets.only(bottom: 2), child: AutoSizeText("Start Intro",
-                    style: AppTheme.textStyleAuto
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(IntroPage.route),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                        side: BorderSide(color: Colors.white, width: 2.0)),
+                    color: Colors.black45,
+                    child: Padding(
+                        padding: EdgeInsets.only(bottom: 2),
+                        child: AutoSizeText("Start Intro",
+                            style: AppTheme.textStyleAuto
 //                    TextStyle(
 //                        color: Colors.white,
 //                        fontSize: 20,
 //                        fontWeight: FontWeight.bold)
-                    )),
-              )),
+                            )),
+                  )),
               Spacer(
                 flex: 5,
               ),
