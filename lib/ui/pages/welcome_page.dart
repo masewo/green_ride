@@ -17,9 +17,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void initState() {
     super.initState();
     initializeDateFormatting('de_DE', null);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {});
-    });
+    Future.delayed(Duration(milliseconds: 200)).then((value) => setState(() {}));
   }
 
   @override
@@ -42,9 +40,9 @@ class _WelcomePageState extends State<WelcomePage> {
             children: [
               Spacer(flex: isPortrait ? 20 : 15),
               Expanded(
-                  flex: isPortrait ? 10 : 20,
+                  flex: isPortrait ? 10 : 21,
                   child: FractionallySizedBox(
-                      widthFactor: isPortrait ? 0.3 : 0.15, child: AppLogo())),
+                      widthFactor: isPortrait ? 0.3 : 0.16, child: AppLogo())),
               Spacer(
                 flex: 60,
               ),

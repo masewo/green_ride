@@ -99,7 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     Expanded(
                       child: Column(children: [
                         FractionallySizedBox(
-                            widthFactor: isPortrait ? 0.3 : 0.15,
+                            widthFactor: isPortrait ? 0.3 : 0.16,
                             child: AppLogo()),
                         Spacer(),
                         Row(
