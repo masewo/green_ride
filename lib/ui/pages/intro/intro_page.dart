@@ -12,6 +12,14 @@ class IntroPage extends StatefulWidget {
 
 class _IntroPageState extends State<IntroPage> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     TextStyle textStyle = GoogleFonts.oswald(fontSize: 24, color: Colors.white);
     List<Widget> _screens = [
