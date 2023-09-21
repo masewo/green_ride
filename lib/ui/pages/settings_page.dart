@@ -18,7 +18,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  DateTime selectedDateTime;
+  DateTime? selectedDateTime;
 
   final TextEditingController originController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
@@ -197,22 +197,22 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildTextField(
-      {TextEditingController controller,
-      String hint,
-      Icon icon,
+      {TextEditingController? controller,
+      String? hint,
+      Icon? icon,
       bool withShadow = false}) {
     // TODO: remove me later
-    if (hint == 'Origin' && controller.text == '' && kDebugMode)
-      controller.text = 'Merowingerstraße 1\n85051 Ingolstadt';
-    if (hint == 'Destination' && controller.text == '' && kDebugMode)
-      controller.text = 'Auto-Union-Straße 1\n85045 Ingolstadt';
+    if (hint == 'Origin' && controller?.text == '' && kDebugMode)
+      controller?.text = 'Merowingerstraße 1\n85051 Ingolstadt';
+    if (hint == 'Destination' && controller?.text == '' && kDebugMode)
+      controller?.text = 'Auto-Union-Straße 1\n85045 Ingolstadt';
 
     return Container(
         decoration: BoxDecoration(
           borderRadius: new BorderRadius.all(const Radius.circular(40.0)),
           boxShadow: [
             BoxShadow(
-              color: withShadow ? Colors.blueGrey[400] : Colors.transparent,
+              color: withShadow ? Colors.blueGrey[400]! : Colors.transparent,
               blurRadius: 10.0, // has the effect of softening the shadow
               spreadRadius: -5.0, // has the effect of extending the shadow
               offset: Offset(
@@ -243,7 +243,7 @@ class _SettingsPageState extends State<SettingsPage> {
               borderRadius: new BorderRadius.all(const Radius.circular(40.0)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.blueGrey[400],
+                  color: Colors.blueGrey[400]!,
                   blurRadius: 10.0, // has the effect of softening the shadow
                   spreadRadius: -5.0, // has the effect of extending the shadow
                   offset: Offset(
@@ -304,21 +304,21 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildTimeContainer(CupertinoDatePickerMode mode) {
-    String formattedDateTime;
+    String? formattedDateTime;
     Icon icon;
 
     switch (mode) {
       case CupertinoDatePickerMode.time:
         if (selectedDateTime != null) {
           DateFormat formatter = new DateFormat.Hm('de');
-          formattedDateTime = formatter.format(selectedDateTime);
+          formattedDateTime = formatter.format(selectedDateTime!);
         }
         icon = Icon(Icons.access_time, size: 30, color: Colors.grey[400]);
         break;
       case CupertinoDatePickerMode.date:
         if (selectedDateTime != null) {
           DateFormat formatter = DateFormat.yMMMMd('de');
-          formattedDateTime = formatter.format(selectedDateTime);
+          formattedDateTime = formatter.format(selectedDateTime!);
         }
         icon = Icon(Icons.calendar_today, size: 30, color: Colors.grey[400]);
         break;
@@ -343,7 +343,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       new BorderRadius.all(const Radius.circular(40.0)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.blueGrey[400],
+                      color: Colors.blueGrey[400]!,
                       blurRadius:
                           10.0, // has the effect of softening the shadow
                       spreadRadius:
@@ -376,7 +376,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<dynamic> showIOSDateTimePicker(CupertinoDatePickerMode mode,
-      DateTime dateTime, Function(DateTime dateTime) setDateTime) {
+      DateTime? dateTime, Function(DateTime? dateTime) setDateTime) {
     FocusNode().requestFocus();
     return showCupertinoModalPopup(
         context: context,

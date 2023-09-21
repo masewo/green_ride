@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart'
     as google_maps_flutter;
 import 'package:google_maps_webservice/directions.dart';
-import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 
 class GoogleMapsClient {
@@ -28,15 +27,18 @@ class GoogleMapsClient {
   }
 
   Future<DirectionsResponse> directionsWithAddress(
-      String origin, String destination,
-      {List<google_maps_flutter.LatLng> waypoints,
-      TravelMode travelMode = TravelMode.driving}) async {
+    String origin,
+    String destination, {
+    List<google_maps_flutter.LatLng>? waypoints,
+    TravelMode travelMode = TravelMode.driving,
+  }) async {
     var response = await _directions.directionsWithAddress(
       origin,
       destination,
       waypoints: waypoints
-          ?.map((e) => Waypoint.fromLocation(Location(e.latitude, e.longitude)))
-          ?.toList(),
+          ?.map((e) => Waypoint.fromLocation(
+          Location(lat: e.latitude, lng: e.longitude)))
+          .toList() ?? [],
       travelMode: travelMode,
       alternatives: false,
       language: 'en',

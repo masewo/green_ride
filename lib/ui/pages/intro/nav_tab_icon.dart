@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class NavTabIcon extends StatefulWidget {
 
   const NavTabIcon({
-    Key key,
-    @required String name,
-    @required int index,
-    @required Animation animation
+    Key? key,
+    required String name,
+    required int index,
+    required Animation animation
   }) : _name = name, _index = index, _animation = animation, super(key: key);
 
   final String _name;
@@ -25,13 +25,13 @@ class NavTabIconState extends State<NavTabIcon> {
   @override
   Widget build(BuildContext context) {
 
-    TextStyle style = Theme.of(context).textTheme.headline4.copyWith(color: Colors.white);
+    TextStyle? style = Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white);
     Text icon = Text(widget._name.substring(0, 1), style: style);
 
     return AnimatedBuilder(
         animation: widget._animation,
         child: icon,
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
 
           int index = widget._index;
           double value = widget._animation.value;

@@ -38,7 +38,9 @@ class MyApp extends StatelessWidget {
             builder: (BuildContext context) => SettingsPage());
       case DailyTravelPage.route:
         return MaterialPageRoute(
-            builder: (BuildContext context) => DailyTravelPage(arguments: settings.arguments,));
+            builder: (BuildContext context) => DailyTravelPage(
+                  arguments: settings.arguments as DailyTravelPageArguments,
+                ));
       default:
         return MaterialPageRoute(
             builder: (BuildContext context) => WelcomePage());

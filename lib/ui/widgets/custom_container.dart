@@ -17,27 +17,27 @@ enum ShadowDirection {
 class CustomContainer extends StatelessWidget {
   final double borderRadius;
   final double elevation;
-  final double height;
-  final double width;
-  final Border border;
-  final BorderRadius customBorders;
-  final EdgeInsets margin;
+  final double? height;
+  final double? width;
+  final Border? border;
+  final BorderRadius? customBorders;
+  final EdgeInsets? margin;
   final EdgeInsets padding;
-  final Widget child;
+  final Widget? child;
   final Color color;
-  final Color shadowColor;
-  final List<BoxShadow> boxShadows;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final VoidCallback onDoubleTap;
+  final Color? shadowColor;
+  final List<BoxShadow>? boxShadows;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final VoidCallback? onDoubleTap;
   final BoxShape boxShape;
-  final AlignmentGeometry alignment;
+  final AlignmentGeometry? alignment;
   final ShadowDirection shadowDirection;
-  final Color rippleColor;
+  final Color? rippleColor;
   final bool animate;
   final Duration duration;
   CustomContainer({
-    Key key,
+    Key? key,
     this.child,
     this.border,
     this.color = Colors.transparent,
@@ -102,7 +102,7 @@ class CustomContainer extends StatelessWidget {
       ),
     );
 
-    final List<BoxShadow> boxShadow = boxShadows ?? elevation != 0
+    final List<BoxShadow> boxShadow = boxShadows ?? (elevation != 0
         ? [
       BoxShadow(
         color: shadowColor ?? Colors.black12,
@@ -111,7 +111,7 @@ class CustomContainer extends StatelessWidget {
         spreadRadius: 0,
       ),
     ]
-        : const [];
+        : const []);
 
     final boxDecoration = BoxDecoration(
       color: color,
@@ -147,31 +147,22 @@ class CustomContainer extends StatelessWidget {
     switch (shadowDirection) {
       case ShadowDirection.topLeft:
         return Offset(-1 * xm, -1 * ym);
-        break;
       case ShadowDirection.top:
         return Offset(0, -1 * ym);
-        break;
       case ShadowDirection.topRight:
         return Offset(xm, -1 * ym);
-        break;
       case ShadowDirection.right:
         return Offset(xm, 0);
-        break;
       case ShadowDirection.bottomRight:
         return Offset(xm, ym);
-        break;
       case ShadowDirection.bottom:
         return Offset(0, ym);
-        break;
       case ShadowDirection.bottomLeft:
         return Offset(-1 * xm, ym);
-        break;
       case ShadowDirection.left:
         return Offset(-1 * xm, 0);
-        break;
       default:
         return Offset.zero;
-        break;
     }
   }
 }

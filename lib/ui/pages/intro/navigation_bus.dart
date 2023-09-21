@@ -9,7 +9,7 @@ class AppNavEvent { AppNavEvent(this.route); String route; }
 abstract class NavigationBus {
 
   static EventBus _bus = new EventBus();
-  static BuildContext context;
+  static BuildContext? context;
 
   static get animation => (NavigationBus.tabController == null)
       ? AlwaysStoppedAnimation(1.0)
@@ -17,17 +17,17 @@ abstract class NavigationBus {
 
   static set (TabController x) { _tabController = x; }
   static get tabController => _tabController;
-  static TabController _tabController;
+  static TabController? _tabController;
 
-  static StreamSubscription registerNavigationListener(Function listener) =>
+  static StreamSubscription registerNavigationListener(Function(AppNavEvent) listener) =>
       _bus.on<AppNavEvent>().listen(listener);
 
-  static StreamSubscription registerControllerAttachedListener(Function listener) =>
+  static StreamSubscription registerControllerAttachedListener(Function(ControllerAttachedEvent) listener) =>
       _bus.on<ControllerAttachedEvent>().listen(listener);
 
   static void registerTabController(TabController controller) {
     _tabController = controller;
-    _tabController.animation.addListener(NavigationBus.onUpdateTabAnimation);
+    _tabController?.animation?.addListener(NavigationBus.onUpdateTabAnimation);
     _bus.fire(ControllerAttachedEvent());
   }
 
@@ -40,7 +40,7 @@ abstract class NavigationBus {
   static void tryPop() {
 
     if (NavigationBus.context != null) {
-      Navigator.popUntil(context, (Route route) => route.isFirst);
+      Navigator.popUntil(context!, (Route route) => route.isFirst);
       NavigationBus.context = null;
     }
   }

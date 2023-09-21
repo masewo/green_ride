@@ -1,29 +1,29 @@
-import 'package:weather/weather_library.dart';
+import 'package:weather/weather.dart';
 
 class WeatherService {
   static final String apiKey = "xxx";
 
   WeatherService.I() {
-    weatherStation = new WeatherStation(apiKey);
+    weatherStation = new WeatherFactory(apiKey);
   }
 
-  WeatherStation weatherStation;
+  late WeatherFactory weatherStation;
 
   Future<WeatherInfo> getWeather(double lat, double lon) async {
-    Weather weather = await weatherStation.currentWeather(lat, lon);
-    return WeatherInfo(weather.weatherIcon, weather.temperature.celsius);
+    Weather weather = await weatherStation.currentWeatherByLocation(lat, lon);
+    return WeatherInfo(weather.weatherIcon, weather.temperature?.celsius);
   }
 }
 
 class WeatherInfo {
-  String weatherIcon;
-  double temperature;
+  String? weatherIcon;
+  double? temperature;
 
-  WeatherInfo(String weatherIcon, this.temperature) {
+  WeatherInfo(String? weatherIcon, this.temperature) {
     this.weatherIcon = translateIcon(weatherIcon);
   }
 
-  String translateIcon(String weatherIcon) {
+  String translateIcon(String? weatherIcon) {
     switch(weatherIcon) {
       case '01d': return 'wi-day-sunny';
       case '01n': return 'wi-night-clear';

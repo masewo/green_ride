@@ -1,7 +1,6 @@
 import 'dart:async';
 
 //import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -16,7 +15,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:green_ride/weather/weather_service.dart';
 import 'package:lottie/lottie.dart' hide Marker;
 
-import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class DailyTravelPage extends StatefulWidget {
@@ -24,7 +23,7 @@ class DailyTravelPage extends StatefulWidget {
 
   final DailyTravelPageArguments arguments;
 
-  DailyTravelPage({Key key, this.arguments}) : super(key: key);
+  DailyTravelPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   _DailyTravelPageState createState() => _DailyTravelPageState();
@@ -36,14 +35,14 @@ class _DailyTravelPageState extends State<DailyTravelPage>
 
   static var textStyle = AppTheme.textStyleSmall;
 
-  SheetController sheetController;
-  AnimationController _animationController;
+  late SheetController sheetController;
+  late AnimationController _animationController;
 
-  bool get isExpanded => state?.isExpanded ?? false;
+  bool get isExpanded => state.isExpanded;
 
-  bool get isCollapsed => state?.isCollapsed ?? true;
+  bool get isCollapsed => state.isCollapsed;
 
-  double get progress => state?.progress ?? 0.0;
+  double get progress => state.progress;
 
   DailyTravelPageArguments get arguments => widget.arguments;
 
@@ -65,12 +64,12 @@ class _DailyTravelPageState extends State<DailyTravelPage>
 
   final Set<Polyline> polylines = {};
   final Set<Marker> markers = {};
-  BitmapDescriptor marker;
+  late BitmapDescriptor marker;
 
-  Direction directionDriving;
-  Direction directionBicycling;
+  late Direction? directionDriving;
+  late Direction? directionBicycling;
 
-  WeatherInfo weather;
+  late WeatherInfo? weather;
 
   Completer<BitmapDescriptor> markerAssetImageCompleter = Completer();
 
@@ -102,32 +101,33 @@ class _DailyTravelPageState extends State<DailyTravelPage>
 
         markers.add(Marker(
             markerId: MarkerId('1'),
-            position: directionBicycling.originLatLng,
+            position: directionBicycling!.originLatLng,
             icon: marker,
             anchor: Offset(0.5, 0.5)));
 
         markers.add(Marker(
             markerId: MarkerId('2'),
-            position: directionBicycling.destinationLatLng,
+            position: directionBicycling!.destinationLatLng,
             icon: marker,
             anchor: Offset(0.5, 0.5)));
       });
 
       GetIt.I<WeatherService>()
-          .getWeather(directionBicycling.originLatLng.latitude,
-              directionBicycling.originLatLng.longitude)
+          .getWeather(directionBicycling!.originLatLng.latitude,
+              directionBicycling!.originLatLng.longitude)
           .then((value) => setState(() => weather = value));
 
       LatLngBounds bounds = LatLngBounds(
-          southwest: directionBicycling.originLatLng,
-          northeast: directionBicycling.destinationLatLng);
+          southwest: directionBicycling!.originLatLng,
+          northeast: directionBicycling!.destinationLatLng);
 
       CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 100);
       this._mapController.future.then((mapController) =>
           mapController.moveCamera(cameraUpdate).then((void v) {
             check(cameraUpdate, mapController).then((value) {
               mapController.getVisibleRegion().then((value) {
-                mapController.moveCamera(CameraUpdate.newLatLngBounds(value, 100));
+                mapController
+                    .moveCamera(CameraUpdate.newLatLngBounds(value, 100));
               });
             });
 
@@ -136,8 +136,8 @@ class _DailyTravelPageState extends State<DailyTravelPage>
           }));
 
       setState(() {
-        polylines.add(directionDriving.polyline);
-        polylines.add(directionBicycling.polyline);
+        polylines.add(directionDriving!.polyline);
+        polylines.add(directionBicycling!.polyline);
       });
     });
   }
@@ -183,7 +183,7 @@ class _DailyTravelPageState extends State<DailyTravelPage>
 
   Widget buildSheet() {
     return SlidingSheet(
-      duration: const Duration(milliseconds: 900),
+      openDuration: const Duration(milliseconds: 900),
       controller: sheetController,
       shadowColor: Colors.black26,
       elevation: 12,
@@ -216,7 +216,7 @@ class _DailyTravelPageState extends State<DailyTravelPage>
         endExtent: 0.6,
       ),
       listener: (state) {
-        final needsRebuild = (this.state?.isCollapsed != state.isCollapsed) ||
+        final needsRebuild = (this.state.isCollapsed != state.isCollapsed) ||
             (this.state.isExpanded != state.isExpanded) ||
             (this.state.isAtTop != state.isAtTop) ||
             (this.state.isAtBottom != state.isAtBottom);
@@ -311,7 +311,7 @@ class _DailyTravelPageState extends State<DailyTravelPage>
 
   Widget buildFooter(BuildContext context, SheetState state) {
     Widget button(Widget icon, Text text, VoidCallback onTap,
-        {BorderSide border, Color color}) {
+        {BorderSide? border, Color? color}) {
       final child = Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -326,19 +326,38 @@ class _DailyTravelPageState extends State<DailyTravelPage>
         borderRadius: BorderRadius.all(Radius.circular(18)),
       );
 
+      final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+        backgroundColor: color,
+        // maybe foregroundColor?
+        minimumSize: Size(88, 36),
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        elevation: 2,
+        shape: shape,
+      );
+
+      final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
+        foregroundColor: color,
+        minimumSize: Size(88, 36),
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        shape: shape,
+      ).copyWith(
+        side: MaterialStateProperty.resolveWith<BorderSide?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed)) return border;
+            return null; // Defer to the widget's default.
+          },
+        ),
+      );
+
       return border == null
-          ? RaisedButton(
-              color: color,
+          ? ElevatedButton(
+              style: raisedButtonStyle,
               onPressed: onTap,
-              elevation: 2,
-              shape: shape,
               child: child,
             )
-          : OutlineButton(
-              color: color,
+          : OutlinedButton(
+              style: outlineButtonStyle,
               onPressed: onTap,
-              borderSide: border,
-              shape: shape,
               child: child,
             );
     }
@@ -367,8 +386,8 @@ class _DailyTravelPageState extends State<DailyTravelPage>
             ),
             () async {
               GoogleMapsHelper.startNavigation(
-                  origin: directionBicycling.originLatLng,
-                  destination: directionBicycling.destinationLatLng);
+                  origin: directionBicycling!.originLatLng,
+                  destination: directionBicycling!.destinationLatLng);
 //                  waypoints: [LatLng(spot.latitude, spot.longitude)])
               // Inherit from context...
 //              await SheetController.of(context).hide();
@@ -400,9 +419,10 @@ class _DailyTravelPageState extends State<DailyTravelPage>
             !isExpanded
                 ? () => sheetController
                     .scrollTo(state.maxScrollExtent)
-                    .then((value) => setState(() {}))
-                : () =>
-                    sheetController.collapse().then((value) => setState(() {})),
+                    ?.then((value) => setState(() {}))
+                : () => sheetController
+                    .collapse()
+                    ?.then((value) => setState(() {})),
             color: Colors.white,
             border: BorderSide(
               color: Colors.grey.shade400,
@@ -544,13 +564,14 @@ class _DailyTravelPageState extends State<DailyTravelPage>
               children: [
                 weather != null
                     ? BoxedIcon(
-                  WeatherIcons.fromString(weather.weatherIcon,
-                      // Fallback is optional, throws if not found, and not supplied.
-                      fallback: WeatherIcons.na),
-                  size: 40,
-                )
+                        WeatherIcons.fromString(weather?.weatherIcon ?? '',
+                            // Fallback is optional, throws if not found, and not supplied.
+                            fallback: WeatherIcons.na),
+                        size: 40,
+                      )
                     : BoxedIcon(WeatherIcons.na),
-                Text((weather?.temperature?.toStringAsFixed(1) ?? "---") + " °C",
+                Text(
+                    (weather?.temperature?.toStringAsFixed(1) ?? "---") + " °C",
                     style: AppTheme.textStyle)
               ],
             ),
@@ -564,8 +585,7 @@ class _DailyTravelPageState extends State<DailyTravelPage>
   Widget buildSteps(BuildContext context) {
     final steps = [
       Step('Go to your bike.', '30 seconds'),
-      Step("Sit on your bike.",
-          '10 seconds'),
+      Step("Sit on your bike.", '10 seconds'),
       Step("Start pedaling.", '5 seconds'),
       Step("Happy bicycling!", 'Forever'),
     ];
@@ -700,7 +720,10 @@ class _DailyTravelPageState extends State<DailyTravelPage>
           isDismissable: isDismissable,
           dismissOnBackdropTap: true,
           isBackdropInteractable: true,
-          onDismissPrevented: (backButton, backDrop) async {
+          onDismissPrevented: ({
+            required bool backButton,
+            required bool backDrop,
+          }) async {
             HapticFeedback.heavyImpact();
 
             if (backButton || backDrop) {
@@ -726,7 +749,7 @@ class _DailyTravelPageState extends State<DailyTravelPage>
                 children: <Widget>[
                   Text(
                     'Confirm purchase',
-                    style: textTheme.headline4.copyWith(
+                    style: textTheme.headlineMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -737,7 +760,7 @@ class _DailyTravelPageState extends State<DailyTravelPage>
                       Expanded(
                         child: Text(
                           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis tellus lacus, et pulvinar orci eleifend in.',
-                          style: textTheme.subtitle1.copyWith(
+                          style: textTheme.titleMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -762,29 +785,29 @@ class _DailyTravelPageState extends State<DailyTravelPage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  FlatButton(
+                  TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: Text(
                       'Cancel',
-                      style: textTheme.subtitle1.copyWith(
+                      style: textTheme.titleMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   const SizedBox(width: 16),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       if (!isDismissable) {
                         isDismissable = true;
-                        SheetController.of(context).rebuild();
+                        SheetController.of(context)?.rebuild();
                       } else {
                         Navigator.pop(context);
                       }
                     },
                     child: Text(
                       'Approve',
-                      style: textTheme.subtitle1.copyWith(
+                      style: textTheme.titleMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -889,8 +912,13 @@ class _DailyTravelPageState extends State<DailyTravelPage>
     // meter -> kilometer
     // 0,2 kg CO2 pro kilometer
     // 30 kg CO2 pro jahr pro baum
-    var trees = (directionDriving?.distanceMeter ?? 0) * 2 * (365 / 7 * arguments.daysOfWeek) / 1000 * 0.2 / 30;
-        return trees.toInt().toString();
+    var trees = (directionDriving?.distanceMeter ?? 0) *
+        2 *
+        (365 / 7 * arguments.daysOfWeek) /
+        1000 *
+        0.2 /
+        30;
+    return trees.toInt().toString();
   }
 }
 

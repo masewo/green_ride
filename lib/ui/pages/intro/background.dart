@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:green_ride/ui/pages/intro/navigation_bus.dart';
 
 class Background extends StatefulWidget {
-  const Background({Key key, @required String assetName})
+  const Background({Key? key, required String assetName})
       : _assetName = assetName,
         super(key: key);
 
@@ -21,7 +21,7 @@ class BackgroundState extends State<Background> {
   void initState() {
     super.initState();
 
-    Function listener = (ControllerAttachedEvent event) {
+    Function(ControllerAttachedEvent) listener = (ControllerAttachedEvent event) {
       setState(() {});
     };
     NavigationBus.registerControllerAttachedListener(listener);
@@ -39,7 +39,7 @@ class BackgroundState extends State<Background> {
 
     return AnimatedBuilder(
         animation: animation,
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
           double offset = animation.value * -0.28 + 0.5;
 
           return OverflowBox(

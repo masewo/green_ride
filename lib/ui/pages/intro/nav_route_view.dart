@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class NavRouteView extends AnimatedWidget {
 
   const NavRouteView({
-    Key key,
-    @required child,
-    @required int index,
-    @required Animation<double> animation,
+    Key? key,
+    required child,
+    required int index,
+    required Animation<double> animation,
   }) : this._child = child, this._index = index, this._animation = animation, super(key: key, listenable: animation);
 
   final Animation<double> _animation;
@@ -22,7 +22,7 @@ class NavRouteView extends AnimatedWidget {
 
     return AnimatedBuilder(
         animation: _animation,
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
 
           int index = _index;
           double value = _animation.value;

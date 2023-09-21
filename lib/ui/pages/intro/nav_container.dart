@@ -7,7 +7,7 @@ import 'package:green_ride/ui/pages/settings_page.dart';
 import 'package:green_ride/ui/theme/app_theme.dart';
 
 class NavContainer extends StatefulWidget {
-  NavContainer({Key key, @required this.children}) : super(key: key);
+  NavContainer({Key? key, required this.children}) : super(key: key);
 
   final List<Widget> children;
 
@@ -17,10 +17,10 @@ class NavContainer extends StatefulWidget {
 
 class _NavContainerState extends State<NavContainer>
     with SingleTickerProviderStateMixin {
-  TabController _controller;
+  late TabController _controller;
   int _currentIndex = 0;
 
-  Animation _animation;
+  late Animation<double> _animation;
 
 //  List<Tab> get _tabs {
 //
@@ -83,14 +83,14 @@ class _NavContainerState extends State<NavContainer>
 //    _controller.animation.addListener(() {
 //      print(_controller.offset.toString());
 //    });
-    _controller.animation.addListener(() {
+    _controller.animation?.addListener(() {
 //      print(_controller.index.toString());
       setState(() {
 //        _currentIndex = _controller.index;
-        _currentIndex = (_controller.animation.value).round();
+        _currentIndex = (_controller.animation!.value).round();
       });
     });
-    _animation = _controller.animation;
+    _animation = _controller.animation!;
     NavigationBus.registerTabController(_controller);
   }
 
@@ -99,6 +99,16 @@ class _NavContainerState extends State<NavContainer>
     super.dispose();
     _controller.dispose();
   }
+
+  final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+    foregroundColor: Colors.black45,
+    minimumSize: Size(88, 36),
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(40.0),
+      side: BorderSide(color: Colors.white, width: 2.0),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -127,13 +137,9 @@ class _NavContainerState extends State<NavContainer>
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            FlatButton(
+            TextButton(
                 onPressed: () =>
                     Navigator.of(context).pushNamed(SettingsPage.route),
-                color: Colors.black45,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40.0),
-                    side: BorderSide(color: Colors.white, width: 2.0)),
                 child: Row(
                   children: [
                     SizedBox(width: 8),
@@ -148,7 +154,9 @@ class _NavContainerState extends State<NavContainer>
                     )
                   ],
                 )),
-            SizedBox(width: 8,)
+            SizedBox(
+              width: 8,
+            )
           ],
         )
       ]))

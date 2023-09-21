@@ -11,12 +11,15 @@ class GoogleMapsService {
 
   GoogleMapsService.I();
 
-  Future<Direction> directionsWithAddress(String origin, String destination,
-      {List<LatLng> waypoints,
-      directions.TravelMode travelMode = directions.TravelMode.driving}) async {
+  Future<Direction> directionsWithAddress(
+    String origin,
+    String destination, {
+    List<LatLng>? waypoints,
+    directions.TravelMode travelMode = directions.TravelMode.driving,
+  }) async {
     var route = Route(origin, destination, waypoints, travelMode);
     if (cachedDirections.containsKey(route)) {
-      return cachedDirections[route];
+      return cachedDirections[route]!;
     } else {
       directions.DirectionsResponse response = await GoogleMapsClient()
           .directionsWithAddress(origin, destination,
@@ -46,21 +49,26 @@ class GoogleMapsService {
     }
   }
 
-  Polyline calculatePolyline(directions.DirectionsResponse response, directions.TravelMode travelMode) {
+  Polyline calculatePolyline(directions.DirectionsResponse response,
+      directions.TravelMode travelMode) {
     var polyline = response.routes.first.overviewPolyline;
     var decodedPolyline = decodePolyline(polyline.points);
     return Polyline(
         polylineId: PolylineId(polyline.points),
-        points: decodedPolyline.map((e) => LatLng(e[0], e[1])).toList(),
+        points: decodedPolyline
+            .map((e) => LatLng(e[0].toDouble(), e[1].toDouble()))
+            .toList(),
         visible: true,
-        color: travelMode == directions.TravelMode.bicycling ? AppTheme.appColor : Colors.grey.shade400);
+        color: travelMode == directions.TravelMode.bicycling
+            ? AppTheme.appColor
+            : Colors.grey.shade400);
   }
 }
 
 class Route {
   final String origin;
   final String destination;
-  final List<LatLng> waypoints;
+  final List<LatLng>? waypoints;
   final directions.TravelMode travelMode;
 
   Route(this.origin, this.destination, this.waypoints, this.travelMode);
@@ -91,11 +99,11 @@ class Direction {
   final LatLng destinationLatLng;
 
   Direction({
-    this.polyline,
-    this.duration,
-    this.distance,
-    this.distanceMeter,
-    this.originLatLng,
-    this.destinationLatLng,
+    required this.polyline,
+    required this.duration,
+    required this.distance,
+    required this.distanceMeter,
+    required this.originLatLng,
+    required this.destinationLatLng,
   });
 }

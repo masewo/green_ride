@@ -5,9 +5,9 @@ import 'package:green_ride/google_maps/google_maps_client.dart';
 import 'package:green_ride/ui/theme/app_theme.dart';
 
 class TypeAheadLocationTextField extends StatefulWidget {
-  final TextEditingController controller;
-  final String hint;
-  final Icon icon;
+  final TextEditingController? controller;
+  final String? hint;
+  final Icon? icon;
 
   TypeAheadLocationTextField(this.controller, this.hint, this.icon);
 
@@ -18,16 +18,16 @@ class TypeAheadLocationTextField extends StatefulWidget {
 
 class _TypeAheadLocationTextFieldState
     extends State<TypeAheadLocationTextField> {
-  TextEditingController get controller => widget.controller;
+  TextEditingController? get controller => widget.controller;
 
-  String get hint => widget.hint;
+  String? get hint => widget.hint;
 
-  Icon get icon => widget.icon;
+  Icon? get icon => widget.icon;
 
   @override
   Widget build(BuildContext context) {
     return TypeAheadFormField<Prediction>(
-      textFieldConfiguration: TextFieldConfiguration<Prediction>(
+      textFieldConfiguration: TextFieldConfiguration(
           keyboardAppearance: Theme.of(context).brightness,
           textCapitalization: TextCapitalization.sentences,
           autocorrect: false,
@@ -69,8 +69,8 @@ class _TypeAheadLocationTextFieldState
               children: <Widget>[
                 Flexible(
                     child: Text(
-                  '${prediction.structuredFormatting.mainText}'
-                  '${prediction.structuredFormatting.secondaryText != null ? ', ${prediction.structuredFormatting.secondaryText}' : ''}',
+                  '${prediction.structuredFormatting?.mainText}'
+                  '${prediction.structuredFormatting?.secondaryText != null ? ', ${prediction.structuredFormatting?.secondaryText}' : ''}',
                   style: AppTheme.textStyleSmall,
                 )),
               ],
@@ -106,8 +106,8 @@ class _TypeAheadLocationTextFieldState
       suggestionsBoxVerticalOffset: 1,
       debounceDuration: Duration(seconds: 1),
       onSuggestionSelected: (Prediction prediction) {
-        controller.text =
-            '${prediction.structuredFormatting.mainText}\n${prediction.structuredFormatting.secondaryText}';
+        controller?.text =
+            '${prediction.structuredFormatting?.mainText}\n${prediction.structuredFormatting?.secondaryText}';
       },
     );
   }
